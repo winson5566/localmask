@@ -29,8 +29,9 @@ export function Workbench() {
   const [mode, setMode] = useState<Mode>('view');
   const [dragOver, setDragOver] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [autoDetectToken, setAutoDetectToken] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const didAutoDetect = useRef(false);
+  const lastAutoRun = useRef(-1);
 
   const inputText = tab === 'text' ? text : parsed?.text ?? '';
   const charCount = inputText.length;
@@ -48,15 +49,15 @@ export function Workbench() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputText]);
 
-  // Run detection once on first load, after the model is ready, on the sample text.
+  // Auto-run detection on first load (sample text) and after each new file upload.
   useEffect(() => {
-    if (didAutoDetect.current) return;
     if (filter.status !== 'ready') return;
+    if (lastAutoRun.current === autoDetectToken) return;
     if (!inputText.trim()) return;
-    didAutoDetect.current = true;
+    lastAutoRun.current = autoDetectToken;
     filter.run(inputText).catch(() => { /* surfaced via error */ });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter.status]);
+  }, [autoDetectToken, filter.status, inputText]);
 
   const handleDetect = useCallback(() => {
     if (!inputText.trim()) return;
@@ -69,6 +70,7 @@ export function Workbench() {
       const p = await parseFile(file);
       setParsed(p);
       setTab('file');
+      setAutoDetectToken((n) => n + 1); // auto-run detection on the new file
     } catch (err) {
       console.error(err);
       alert(`${file.name}: ${(err as Error).message}`);
