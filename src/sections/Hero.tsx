@@ -54,10 +54,10 @@ export function Hero() {
               <span className="ent" data-type="private_date">March 14, 2026</span>
               <br />
               {t.hero.phone}{' '}
-              <span className="ent" data-type="private_phone">+44 20 7946 0958</span>
+              <span className="ent" data-type="private_phone">+64 3 379 1660</span>
               <br />
               {t.hero.address}{' '}
-              <span className="ent" data-type="private_address">4 Privet Drive, Little Whinging, Surrey</span>
+              <span className="ent" data-type="private_address">90 Worcester Boulevard, Christchurch Central, Christchurch 8013</span>
               <br />
               <br />
               {t.hero.body1}{' '}

@@ -9,7 +9,7 @@ import { EntityRender } from '../components/EntityRender';
 
 const SAMPLE_TEXT = `Hi Dr. Granger,
 
-This is Harry Potter (harry.potter@hogwarts.edu). I wanted to confirm my appointment on March 14, 2026. You can reach me at +44 20 7946 0958, or by post at 4 Privet Drive, Little Whinging, Surrey.
+This is Harry Potter (harry.potter@hogwarts.edu). I wanted to confirm my appointment on March 14, 2026. You can reach me at +64 3 379 1660, or by post at 90 Worcester Boulevard, Christchurch Central, Christchurch 8013.
 
 For the records transfer, please use the temporary token sk-proj-Vc9Xq2bNh8ZzPm and send a confirmation to https://hogwarts.internal/records/transfer. The card on file ending 4242 4242 4242 4242 is still active.
 
