@@ -3,7 +3,6 @@ import { Hero } from './sections/Hero';
 import { Workbench } from './sections/Workbench';
 import { HowItWorks } from './sections/HowItWorks';
 import { Formats } from './sections/Formats';
-import { Limitations } from './sections/Limitations';
 import { Footer } from './sections/Footer';
 import { LangProvider } from './lib/i18n';
 
@@ -19,7 +18,6 @@ export default function App() {
           <Workbench />
           <HowItWorks />
           <Formats />
-          <Limitations />
         </main>
         <Footer />
       </div>

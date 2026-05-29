@@ -16,7 +16,6 @@ export function Nav() {
         <div className="flex items-center gap-6 text-sm text-[color:var(--color-text-muted)]">
           <a href="#workbench" className="hover:text-[color:var(--color-text)] transition-colors">{t.nav.workbench}</a>
           <a href="#how" className="hover:text-[color:var(--color-text)] transition-colors hidden sm:inline">{t.nav.how}</a>
-          <a href="#limitations" className="hover:text-[color:var(--color-text)] transition-colors hidden md:inline">{t.nav.limitations}</a>
           <a
             href="https://github.com/winson5566/localmask"
             target="_blank"

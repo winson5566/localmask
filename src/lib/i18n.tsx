@@ -6,7 +6,7 @@ export type Lang = 'en' | 'zh';
 type EntityMap = Record<EntityType, string>;
 
 interface Strings {
-  nav: { workbench: string; how: string; limitations: string; repo: string };
+  nav: { workbench: string; how: string; repo: string };
   hero: {
     h1a: string;
     h1b: string;
@@ -39,10 +39,6 @@ interface Strings {
     names: Record<string, string>;
     sameOut: string; txtOut: string;
   };
-  limitations: {
-    h2: string; lede: string;
-    items: { title: string; body: string }[];
-  };
   footer: { tagline: string };
   status: { idle: string; loadingModel: string; loading: (p: string) => string; ready: string; analyzing: string; error: string };
   entityLabel: EntityMap;
@@ -50,7 +46,7 @@ interface Strings {
 }
 
 const en: Strings = {
-  nav: { workbench: 'Workbench', how: 'How it works', limitations: 'Limitations', repo: 'GitHub' },
+  nav: { workbench: 'Workbench', how: 'How it works', repo: 'GitHub' },
   hero: {
     h1a: 'Privacy never leaves',
     h1b: 'your device.',
@@ -104,17 +100,6 @@ const en: Strings = {
     },
     sameOut: 'same format out', txtOut: 'exports as .txt',
   },
-  limitations: {
-    h2: 'What this is not.',
-    lede: 'Using a PII filter responsibly means understanding what it can and cannot do. The points below describe its limits.',
-    items: [
-      { title: 'A redaction aid, not an anonymization guarantee.', body: 'LocalMask is a data-minimization aid. Treating its output as proof of anonymization risks missing the actual privacy objective. Use it as one layer in a holistic privacy-by-design approach.' },
-      { title: 'A static label policy.', body: 'It identifies eight categories of personal data. Real privacy use cases are more varied. Changing label boundaries requires retraining, not configuration at runtime.' },
-      { title: 'Best in English, on Latin scripts.', body: 'Performance may drop on non-English text, non-Latin scripts, protected-group naming patterns, or domains that are out of distribution.' },
-      { title: 'Known failure modes.', body: 'Possible under-detection of uncommon names, regional naming conventions, initials, and domain-specific identifiers. Possible over-redaction of public entities, organizations, or benign high-entropy strings that resemble secrets. Fragmented spans in heavy-layout text.' },
-      { title: 'High-sensitivity workflows need human review.', body: 'Medical, legal, financial, HR, education, and government workflows carry real cost on both false negatives and false positives. Keep humans in the loop.' },
-    ],
-  },
   footer: { tagline: 'Browser-native PII filter' },
   status: { idle: 'Idle', loadingModel: 'Loading model', loading: (p) => `Loading model · ${p}%`, ready: 'Ready', analyzing: 'Analyzing', error: 'Error' },
   entityLabel: {
@@ -134,7 +119,7 @@ const en: Strings = {
 };
 
 const zh: Strings = {
-  nav: { workbench: '工作台', how: '工作原理', limitations: '局限性', repo: 'GitHub' },
+  nav: { workbench: '工作台', how: '工作原理', repo: 'GitHub' },
   hero: {
     h1a: '隐私数据',
     h1b: '永不离开你的设备。',
@@ -187,17 +172,6 @@ const zh: Strings = {
       PDF: 'PDF 文档', DOCX: 'Word 文档', XLSX: 'Excel 工作簿',
     },
     sameOut: '原格式导出', txtOut: '导出为 .txt',
-  },
-  limitations: {
-    h2: '它不是什么。',
-    lede: '负责任地使用 PII 过滤器，意味着理解它能做什么、不能做什么。以下条目说明了它的局限。',
-    items: [
-      { title: '一种脱敏辅助手段，而非匿名化保证。', body: 'LocalMask 是一种数据最小化辅助工具。将其输出视为匿名化的证明，可能会偏离真正的隐私目标。请将它作为整体「隐私设计」方案中的一层。' },
-      { title: '固定的标签策略。', body: '它识别八类个人数据。真实的隐私场景更为多样。改变标签边界需要重新训练，而非运行时配置。' },
-      { title: '在英语、拉丁字母上表现最佳。', body: '在非英语文本、非拉丁字母、受保护群体的命名模式，或分布外的领域上，性能可能下降。' },
-      { title: '已知的失效模式。', body: '可能漏检不常见的姓名、地区性命名习惯、缩写以及领域特定的标识符。可能过度涂黑公众实体、组织，或与密钥相似的良性高熵字符串。在重排版文本中片段可能被切碎。' },
-      { title: '高敏感场景需要人工复核。', body: '医疗、法律、金融、人力资源、教育和政府场景中，漏报和误报都会带来实际代价。请保留人工把关。' },
-    ],
   },
   footer: { tagline: '浏览器原生 PII 过滤器' },
   status: { idle: '空闲', loadingModel: '正在加载模型', loading: (p) => `正在加载模型 · ${p}%`, ready: '就绪', analyzing: '分析中', error: '错误' },
