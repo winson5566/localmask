@@ -16,28 +16,6 @@ export interface Entity {
   word: string;
 }
 
-export const ENTITY_LABEL: Record<EntityType, string> = {
-  private_person: 'Person',
-  private_email: 'Email',
-  private_phone: 'Phone',
-  private_address: 'Address',
-  private_url: 'URL',
-  private_date: 'Date',
-  account_number: 'Account',
-  secret: 'Secret',
-};
-
-export const ENTITY_DESC: Record<EntityType, string> = {
-  private_person: 'A person name or identifier',
-  private_email: 'An email address',
-  private_phone: 'A phone or fax number',
-  private_address: 'A physical or mailing address',
-  private_url: 'A URL pointing to a private resource',
-  private_date: 'A date attached to a person',
-  account_number: 'A financial or account number',
-  secret: 'A password, key, token, or credential',
-};
-
 export const ENTITY_TOKEN: Record<EntityType, string> = {
   private_person: '[PERSON]',
   private_email: '[EMAIL]',
@@ -47,17 +25,6 @@ export const ENTITY_TOKEN: Record<EntityType, string> = {
   private_date: '[DATE]',
   account_number: '[ACCOUNT]',
   secret: '[SECRET]',
-};
-
-export const ENTITY_COLOR: Record<EntityType, string> = {
-  private_person: 'var(--color-ent-person)',
-  private_email: 'var(--color-ent-email)',
-  private_phone: 'var(--color-ent-phone)',
-  private_address: 'var(--color-ent-address)',
-  private_url: 'var(--color-ent-url)',
-  private_date: 'var(--color-ent-date)',
-  account_number: 'var(--color-ent-account)',
-  secret: 'var(--color-ent-secret)',
 };
 
 export const ENTITY_TYPES: EntityType[] = [

@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DownloadSimple, FileText, Sparkle, UploadSimple, X } from '@phosphor-icons/react';
 import { useFilter } from '../lib/useFilter';
-import { ENTITY_LABEL, ENTITY_TYPES, applyMask, applyRedact, type EntityType } from '../lib/entities';
+import { ENTITY_TYPES, applyMask, applyRedact, type EntityType } from '../lib/entities';
+import { useLang } from '../lib/i18n';
 import { ACCEPT, downloadText, exportFilename, parseFile, type ParsedFile } from '../lib/parsers';
 import { StatusPill } from '../components/StatusPill';
 import { EntityRender } from '../components/EntityRender';
@@ -18,6 +19,8 @@ Harry`;
 type Mode = 'view' | 'mask' | 'redact';
 
 export function Workbench() {
+  const { t } = useLang();
+  const w = t.workbench;
   const filter = useFilter();
   const [tab, setTab] = useState<'text' | 'file'>('text');
   const [text, setText] = useState(SAMPLE_TEXT);
@@ -57,7 +60,7 @@ export function Workbench() {
       setTab('file');
     } catch (err) {
       console.error(err);
-      alert(`Could not parse ${file.name}: ${(err as Error).message}`);
+      alert(`${file.name}: ${(err as Error).message}`);
     }
   }, []);
 
@@ -91,9 +94,9 @@ export function Workbench() {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl tracking-tight font-medium">Workbench</h2>
+            <h2 className="text-3xl md:text-4xl tracking-tight font-medium">{w.title}</h2>
             <p className="mt-2 text-[color:var(--color-text-muted)] max-w-[60ch]">
-              Paste text or drop a file. The model loads once, runs locally, and never sees the network after the initial download.
+              {w.lede}
             </p>
           </div>
           <StatusPill status={filter.status} device={filter.device} progress={filter.progress} />
@@ -108,17 +111,17 @@ export function Workbench() {
                   onClick={() => setTab('text')}
                   className={`px-3 h-7 text-xs font-medium rounded transition-colors ${tab === 'text' ? 'bg-[color:var(--color-surface)] text-[color:var(--color-text)]' : 'text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text)]'}`}
                 >
-                  Paste text
+                  {w.pasteTab}
                 </button>
                 <button
                   onClick={() => setTab('file')}
                   className={`px-3 h-7 text-xs font-medium rounded transition-colors ${tab === 'file' ? 'bg-[color:var(--color-surface)] text-[color:var(--color-text)]' : 'text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text)]'}`}
                 >
-                  Upload file
+                  {w.fileTab}
                 </button>
               </div>
               <div className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] num">
-                {wordCount} words · {charCount.toLocaleString()} chars
+                {wordCount} {w.words} · {charCount.toLocaleString()} {w.chars}
               </div>
             </div>
 
@@ -126,7 +129,7 @@ export function Workbench() {
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Paste any text containing names, emails, addresses, keys, or other identifiers…"
+                placeholder={w.placeholder}
                 className="flex-1 w-full p-5 bg-transparent text-[15px] leading-[1.7] resize-none focus:outline-none placeholder:text-[color:var(--color-text-dim)]"
                 spellCheck={false}
               />
@@ -145,26 +148,26 @@ export function Workbench() {
                         <div className="min-w-0">
                           <div className="truncate text-sm">{parsed.filename}</div>
                           <div className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] uppercase tracking-[0.18em] mt-0.5">
-                            {parsed.kind} · {parsed.text.length.toLocaleString()} chars
+                            {parsed.kind} · {parsed.text.length.toLocaleString()} {w.chars}
                           </div>
                         </div>
                       </div>
                       <button
                         onClick={() => { setParsed(null); setTab('text'); }}
                         className="text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text)] transition-colors"
-                        aria-label="Clear file"
+                        aria-label={w.clearFile}
                       >
                         <X size={16} />
                       </button>
                     </div>
                     {parsed.note && (
                       <div className="px-5 py-2 text-[11px] text-[color:var(--color-text-muted)] border-b border-[color:var(--color-border)] bg-[color:var(--color-surface)]/30">
-                        Note: {parsed.note}
+                        {w.note}: {parsed.note}
                       </div>
                     )}
                     <pre className="flex-1 overflow-auto p-5 text-[13px] leading-[1.6] font-mono text-[color:var(--color-text-muted)] whitespace-pre-wrap">
                       {parsed.text.slice(0, 5000)}
-                      {parsed.text.length > 5000 && <span className="text-[color:var(--color-text-dim)]">{`\n\n… ${(parsed.text.length - 5000).toLocaleString()} more chars`}</span>}
+                      {parsed.text.length > 5000 && <span className="text-[color:var(--color-text-dim)]">{`\n\n${w.moreChars((parsed.text.length - 5000).toLocaleString())}`}</span>}
                     </pre>
                   </div>
                 ) : (
@@ -174,11 +177,11 @@ export function Workbench() {
                     className={`flex-1 m-5 flex flex-col items-center justify-center rounded-md border border-dashed transition-colors ${dragOver ? 'border-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)]' : 'border-[color:var(--color-border-strong)] hover:border-[color:var(--color-text-muted)]'}`}
                   >
                     <UploadSimple size={26} weight="regular" className="text-[color:var(--color-text-muted)]" />
-                    <div className="mt-4 text-sm">Drop a file or click to browse</div>
+                    <div className="mt-4 text-sm">{w.dropTitle}</div>
                     <div className="mt-1.5 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)]">
                       PDF · DOCX · XLSX · CSV · JSON · MD · TXT
                     </div>
-                    <div className="mt-4 text-[11px] text-[color:var(--color-text-dim)]">Processed entirely in this tab</div>
+                    <div className="mt-4 text-[11px] text-[color:var(--color-text-dim)]">{w.dropProcessed}</div>
                   </button>
                 )}
                 <input
@@ -206,7 +209,7 @@ export function Workbench() {
                     onClick={() => setMode(m)}
                     className={`px-3 h-7 text-xs font-medium rounded capitalize transition-colors ${mode === m ? 'bg-[color:var(--color-surface)] text-[color:var(--color-text)]' : 'text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text)]'}`}
                   >
-                    {m === 'view' ? 'Highlight' : m === 'mask' ? 'Mask' : 'Redact'}
+                    {m === 'view' ? w.highlight : m === 'mask' ? w.mask : w.redact}
                   </button>
                 ))}
               </div>
@@ -216,7 +219,7 @@ export function Workbench() {
                 className="inline-flex items-center gap-1.5 h-7 px-3 rounded border border-[color:var(--color-border-strong)] text-xs hover:bg-[color:var(--color-surface-2)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <DownloadSimple size={13} />
-                Export
+                {w.export}
               </button>
             </div>
 
@@ -225,18 +228,18 @@ export function Workbench() {
                 <div className="h-full flex items-center justify-center text-[color:var(--color-text-muted)]">
                   <div className="text-center">
                     <Sparkle size={22} className="mx-auto mb-3 opacity-60" />
-                    <div className="text-sm">Model loading on first visit</div>
+                    <div className="text-sm">{w.loadingTitle}</div>
                     <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)] mt-2">
-                      ~700 MB · cached after
+                      {w.loadingSize}
                     </div>
                   </div>
                 </div>
               ) : filter.status === 'error' ? (
                 <div className="text-sm text-red-400 max-w-[60ch]">
-                  Model failed to load. {filter.error}
+                  {w.errorLead} {filter.error}
                   <br />
                   <span className="text-[color:var(--color-text-muted)]">
-                    Tip: WebGPU works best in Chrome / Edge / latest Safari. Older browsers fall back to WASM which is slower but still functional.
+                    {w.errorTip}
                   </span>
                 </div>
               ) : (
@@ -246,14 +249,14 @@ export function Workbench() {
 
             <div className="border-t border-[color:var(--color-border)] bg-[color:var(--color-surface-2)] px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-2">
               <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)] mr-1">
-                {filter.entities.length} detected{filter.inferenceMs != null && ` · ${filter.inferenceMs}ms`}
+                {filter.entities.length} {w.detected}{filter.inferenceMs != null && ` · ${filter.inferenceMs}ms`}
               </div>
-              {ENTITY_TYPES.map((t) => {
-                const n = counts.get(t) ?? 0;
+              {ENTITY_TYPES.map((et) => {
+                const n = counts.get(et) ?? 0;
                 if (!n) return null;
                 return (
-                  <span key={t} className="ent text-[12px]" data-type={t}>
-                    {ENTITY_LABEL[t]} <span className="num text-[color:var(--color-text-muted)]">{n}</span>
+                  <span key={et} className="ent text-[12px]" data-type={et}>
+                    {t.entityLabel[et]} <span className="num text-[color:var(--color-text-muted)]">{n}</span>
                   </span>
                 );
               })}
@@ -262,8 +265,7 @@ export function Workbench() {
         </div>
 
         <p className="mt-6 text-xs text-[color:var(--color-text-dim)] max-w-[80ch]">
-          Output formats: text, Markdown, JSON, CSV, and TSV export to their original format with substitutions applied.
-          PDF, Word, and Excel files are flattened to plain text on export because rewriting the original layout in-browser is out of scope.
+          {w.footerNote}
         </p>
       </div>
     </section>

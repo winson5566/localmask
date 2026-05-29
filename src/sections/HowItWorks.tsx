@@ -1,40 +1,17 @@
-const steps = [
-  {
-    n: '01',
-    title: 'The weights download once.',
-    body:
-      'On your first visit, the openai/privacy-filter ONNX weights (q4f16, around 700 MB) are fetched from Hugging Face and stored in your browser’s Cache Storage. After that, the page works offline.',
-  },
-  {
-    n: '02',
-    title: 'Files are parsed in this tab.',
-    body:
-      'PDFs go through pdf.js, Word documents through Mammoth, spreadsheets through SheetJS, and plain formats are read directly. No bytes leave the page.',
-  },
-  {
-    n: '03',
-    title: 'A Web Worker runs the model.',
-    body:
-      'Transformers.js hosts the classifier in a dedicated worker thread, on WebGPU when available, otherwise WASM. The main thread stays responsive while a single bidirectional pass labels every token.',
-  },
-  {
-    n: '04',
-    title: 'You decide what to do with it.',
-    body:
-      'Highlight to inspect, mask to replace each span with a typed placeholder for downstream pipelines, or redact to erase the span entirely. Export as a clean file when you are ready.',
-  },
-];
+import { useLang } from '../lib/i18n';
 
 export function HowItWorks() {
+  const { t } = useLang();
+  const steps = t.how.steps.map((s, i) => ({ n: `0${i + 1}`, ...s }));
   return (
     <section id="how" className="px-6 lg:px-8 py-24 lg:py-32 border-t border-[color:var(--color-border)]">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
           <h2 className="text-3xl md:text-4xl tracking-tight font-medium leading-[1.1]">
-            On-device, end&nbsp;to&nbsp;end.
+            {t.how.h2}
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted)] leading-relaxed max-w-[46ch]">
-            Everything that touches your text runs in this browser tab. The lifecycle in four steps.
+            {t.how.lede}
           </p>
         </div>
 

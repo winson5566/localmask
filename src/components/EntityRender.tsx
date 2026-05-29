@@ -1,4 +1,5 @@
-import { type Entity, ENTITY_LABEL, ENTITY_TOKEN } from '../lib/entities';
+import { type Entity, ENTITY_TOKEN } from '../lib/entities';
+import { useLang } from '../lib/i18n';
 
 interface Props {
   text: string;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function EntityRender({ text, entities, mode }: Props) {
+  const { t } = useLang();
   if (!entities.length) {
     return <pre className="whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[color:var(--color-text)]">{text}</pre>;
   }
@@ -26,7 +28,7 @@ export function EntityRender({ text, entities, mode }: Props) {
       {parts.map((p, i) => {
         if (p.kind === 'text') return <span key={i}>{p.content}</span>;
         const e = p.ent!;
-        const label = `${ENTITY_LABEL[e.type]} · ${(e.score * 100).toFixed(1)}%`;
+        const label = `${t.entityLabel[e.type]} · ${(e.score * 100).toFixed(1)}%`;
         if (mode === 'mask') {
           return (
             <span key={i} className="mask-token" title={label}>

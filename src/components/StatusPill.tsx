@@ -1,4 +1,5 @@
 import type { ModelStatus, ProgressInfo } from '../lib/useFilter';
+import { useLang } from '../lib/i18n';
 
 interface Props {
   status: ModelStatus;
@@ -14,8 +15,9 @@ function formatBytes(n?: number): string {
 }
 
 export function StatusPill({ status, device, progress }: Props) {
+  const { t } = useLang();
   let dotClass = 'bg-[color:var(--color-text-dim)]';
-  let label = 'Idle';
+  let label = t.status.idle;
   let detail = '';
 
   const downloadEntries = Array.from(progress.values()).filter((p) => p.status === 'progress' && p.progress != null);
@@ -25,20 +27,20 @@ export function StatusPill({ status, device, progress }: Props) {
 
   if (status === 'loading') {
     dotClass = 'bg-amber-400 animate-pulse';
-    label = totalProgress != null ? `Loading model · ${totalProgress.toFixed(0)}%` : 'Loading model';
+    label = totalProgress != null ? t.status.loading(totalProgress.toFixed(0)) : t.status.loadingModel;
     const latest = downloadEntries[downloadEntries.length - 1];
     if (latest?.loaded) detail = `${formatBytes(latest.loaded)}${latest.total ? ` / ${formatBytes(latest.total)}` : ''}`;
   } else if (status === 'ready') {
     dotClass = 'bg-[color:var(--color-accent)]';
-    label = 'Ready';
+    label = t.status.ready;
     detail = device === 'webgpu' ? 'WebGPU · q4f16' : 'WASM · q4';
   } else if (status === 'inferring') {
     dotClass = 'bg-[color:var(--color-accent)] animate-pulse';
-    label = 'Analyzing';
+    label = t.status.analyzing;
     detail = device === 'webgpu' ? 'WebGPU' : 'WASM';
   } else if (status === 'error') {
     dotClass = 'bg-red-500';
-    label = 'Error';
+    label = t.status.error;
   }
 
   return (
