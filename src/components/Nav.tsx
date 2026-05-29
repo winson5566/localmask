@@ -1,4 +1,4 @@
-import { GithubLogo } from '@phosphor-icons/react';
+import { GithubLogo, ShieldCheck } from '@phosphor-icons/react';
 import { useLang } from '../lib/i18n';
 
 export function Nav() {
@@ -7,11 +7,10 @@ export function Nav() {
     <nav className="sticky top-0 z-40 backdrop-blur-md bg-[color:var(--color-bg)]/70 border-b border-[color:var(--color-border)]">
       <div className="max-w-[1400px] mx-auto h-16 px-6 lg:px-8 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
-          <span className="w-6 h-6 rounded-md border border-[color:var(--color-border-strong)] flex items-center justify-center">
-            <span className="w-2 h-2 rounded-sm bg-[color:var(--color-accent)] group-hover:bg-[color:var(--color-accent-hover)] transition-colors" />
+          <span className="w-7 h-7 rounded-lg bg-[color:var(--color-accent)] group-hover:bg-[color:var(--color-accent-hover)] flex items-center justify-center transition-colors">
+            <ShieldCheck size={16} weight="bold" className="text-white" />
           </span>
-          <span className="font-medium tracking-tight">LocalMask</span>
-          <span className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] uppercase tracking-[0.18em] ml-1 hidden sm:inline">v0.1</span>
+          <span className="font-semibold tracking-tight text-[15px]">LocalMask</span>
         </a>
         <div className="flex items-center gap-6 text-sm text-[color:var(--color-text-muted)]">
           <a href="#workbench" className="hover:text-[color:var(--color-text)] transition-colors">{t.nav.workbench}</a>

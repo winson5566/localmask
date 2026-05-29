@@ -46,7 +46,7 @@ interface Strings {
 }
 
 const en: Strings = {
-  nav: { workbench: 'Workbench', how: 'How it works', repo: 'GitHub' },
+  nav: { workbench: 'Try it', how: 'How it works', repo: 'GitHub' },
   hero: {
     h1a: 'Privacy never leaves',
     h1b: 'your device.',
@@ -64,7 +64,7 @@ const en: Strings = {
     entitiesDetected: '8 entities detected',
   },
   workbench: {
-    title: 'Workbench',
+    title: 'Try it',
     lede: 'Paste text or drop a file. The model loads once, runs locally, and never sees the network after the initial download.',
     pasteTab: 'Paste text', fileTab: 'Upload file',
     words: 'words', chars: 'chars',
@@ -119,7 +119,7 @@ const en: Strings = {
 };
 
 const zh: Strings = {
-  nav: { workbench: '工作台', how: '工作原理', repo: 'GitHub' },
+  nav: { workbench: '试一试', how: '工作原理', repo: 'GitHub' },
   hero: {
     h1a: '隐私数据',
     h1b: '永不离开你的设备。',
@@ -137,7 +137,7 @@ const zh: Strings = {
     entitiesDetected: '检测到 8 个实体',
   },
   workbench: {
-    title: '工作台',
+    title: '试一试',
     lede: '粘贴文本或拖入文件。模型只加载一次，在本地运行，首次下载后不再访问网络。',
     pasteTab: '粘贴文本', fileTab: '上传文件',
     words: '词', chars: '字符',
