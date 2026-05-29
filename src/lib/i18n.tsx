@@ -50,7 +50,7 @@ const en: Strings = {
   hero: {
     h1a: 'Privacy never leaves',
     h1b: 'your device.',
-    lede: 'LocalMask is a browser-native filter for identifiable information (PII). Text, PDF, Word, and Excel are analyzed entirely on your machine. Nothing is uploaded.',
+    lede: 'LocalMask is a browser-native filter for Personally Identifiable Information (PII). Text, PDF, Word, and Excel are analyzed entirely on your machine. Nothing is uploaded.',
     ctaPrimary: 'Open the workbench',
     ctaSecondary: 'How it works',
     previewTitle: 'Preview · sample input',
@@ -123,7 +123,7 @@ const zh: Strings = {
   hero: {
     h1a: '隐私数据',
     h1b: '永不离开你的设备。',
-    lede: 'LocalMask 是一款浏览器原生的可识别信息（PII）过滤器。文本、PDF、Word 和 Excel 全部在你本机分析，任何内容都不会上传。',
+    lede: 'LocalMask 是一款浏览器原生的个人可识别信息（PII）过滤器。文本、PDF、Word 和 Excel 全部在你本机分析，任何内容都不会上传。',
     ctaPrimary: '打开工作台',
     ctaSecondary: '工作原理',
     previewTitle: '预览 · 示例输入',
