@@ -4,7 +4,7 @@ declare module 'mammoth/mammoth.browser' {
   export default _default;
 }
 
-declare module 'pdfjs-dist/build/pdf.worker.min.mjs?url' {
-  const url: string;
-  export default url;
+declare module 'pdfjs-dist/build/pdf.worker.min.mjs?worker' {
+  const WorkerFactory: new () => Worker;
+  export default WorkerFactory;
 }

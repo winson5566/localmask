@@ -21,9 +21,12 @@ async function readText(file: File): Promise<string> {
 
 async function parsePdf(file: File): Promise<string> {
   const pdfjs = await import('pdfjs-dist');
-  // Vite-friendly worker URL
-  const workerUrl = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
-  pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+  // Bundle the worker as a real Web Worker so it ships as a .js asset with a
+  // correct JavaScript MIME type. Fetching the raw .mjs URL breaks on servers
+  // (e.g. nginx) that do not map .mjs to a JS MIME type, which makes the
+  // browser refuse the module ("Failed to fetch dynamically imported module").
+  const PdfWorker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?worker')).default;
+  pdfjs.GlobalWorkerOptions.workerPort = new PdfWorker();
 
   const buf = await file.arrayBuffer();
   const doc = await pdfjs.getDocument({ data: buf }).promise;
