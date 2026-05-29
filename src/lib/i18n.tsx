@@ -27,7 +27,7 @@ interface Strings {
     dropTitle: string; dropProcessed: string;
     clearFile: string; note: string; moreChars: (n: string) => string;
     detect: string; detecting: string;
-    highlight: string; mask: string; redact: string; export: string;
+    highlight: string; mask: string; redact: string; export: string; exporting: string;
     loadingTitle: string; loadingSize: string;
     errorLead: string; errorTip: string;
     detected: string;
@@ -74,12 +74,12 @@ const en: Strings = {
     clearFile: 'Clear file', note: 'Note',
     moreChars: (n) => `… ${n} more chars`,
     detect: 'Detect', detecting: 'Detecting…',
-    highlight: 'Highlight', mask: 'Mask', redact: 'Redact', export: 'Export',
+    highlight: 'Highlight', mask: 'Mask', redact: 'Redact', export: 'Export', exporting: 'Exporting…',
     loadingTitle: 'Model loading on first visit', loadingSize: '~700 MB · cached after',
     errorLead: 'Model failed to load.',
     errorTip: 'Tip: WebGPU works best in Chrome / Edge / latest Safari. Older browsers fall back to WASM which is slower but still functional.',
     detected: 'detected',
-    footerNote: 'Output formats: text, Markdown, JSON, CSV, and TSV export to their original format with substitutions applied. PDF, Word, and Excel files are flattened to plain text on export because rewriting the original layout in-browser is out of scope.',
+    footerNote: 'Mask and Redact export in the original format. Text, Markdown, JSON, CSV, and TSV round-trip directly. Excel and Word keep their structure; PDF pages are rasterized to images so redacted text is truly removed (the exported PDF is image-based and not selectable). Pick Mask or Redact to export a document — Highlight is for on-screen review.',
   },
   how: {
     h2: 'On-device, end to end.',
@@ -147,12 +147,12 @@ const zh: Strings = {
     clearFile: '清除文件', note: '注意',
     moreChars: (n) => `…… 还有 ${n} 个字符`,
     detect: '检测', detecting: '检测中…',
-    highlight: '高亮', mask: '替换', redact: '涂黑', export: '导出',
+    highlight: '高亮', mask: '替换', redact: '涂黑', export: '导出', exporting: '导出中…',
     loadingTitle: '首次访问正在加载模型', loadingSize: '约 700 MB · 之后缓存',
     errorLead: '模型加载失败。',
     errorTip: '提示：WebGPU 在 Chrome / Edge / 最新版 Safari 上效果最佳。旧版浏览器会回退到 WASM，速度较慢但仍可用。',
     detected: '已检测',
-    footerNote: '导出格式：文本、Markdown、JSON、CSV 和 TSV 会以原格式导出并应用替换。PDF、Word 和 Excel 文件在导出时会展平为纯文本，因为在浏览器内重写原始排版不在本工具范围内。',
+    footerNote: '替换和涂黑都按原格式导出。文本、Markdown、JSON、CSV 和 TSV 直接原样往返；Excel 和 Word 保留结构；PDF 页面会栅格化为图片，使涂黑的文字被彻底移除（导出的 PDF 为图片型、不可选中）。导出文档请选择「替换」或「涂黑」——「高亮」仅用于屏幕查看。',
   },
   how: {
     h2: '端到端，全程在设备上。',

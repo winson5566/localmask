@@ -5,6 +5,8 @@ export type ParsedFile = {
   filename: string;
   text: string;
   note?: string;
+  /** The original file, kept so rich formats can be rewritten in place on export. */
+  file: File;
 };
 
 export const ACCEPT =
@@ -63,6 +65,11 @@ async function parseXlsx(file: File): Promise<string> {
 }
 
 export async function parseFile(file: File): Promise<ParsedFile> {
+  const partial = await parseToText(file);
+  return { ...partial, file };
+}
+
+async function parseToText(file: File): Promise<Omit<ParsedFile, 'file'>> {
   const ext = extOf(file.name);
   const filename = file.name;
 
@@ -101,8 +108,7 @@ export function exportFilename(original: string, suffix: string): string {
   return downgrade ? `${base}.${suffix}.txt` : `${base}.${suffix}${ext}`;
 }
 
-export function downloadText(filename: string, text: string) {
-  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+export function downloadBlob(filename: string, blob: Blob) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -111,4 +117,8 @@ export function downloadText(filename: string, text: string) {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+export function downloadText(filename: string, text: string) {
+  downloadBlob(filename, new Blob([text], { type: 'text/plain;charset=utf-8' }));
 }

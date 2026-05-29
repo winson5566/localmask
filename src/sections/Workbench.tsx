@@ -3,7 +3,8 @@ import { DownloadSimple, FileText, MagnifyingGlass, Sparkle, UploadSimple, X } f
 import { useFilter } from '../lib/useFilter';
 import { ENTITY_TYPES, applyMask, applyRedact, type EntityType } from '../lib/entities';
 import { useLang } from '../lib/i18n';
-import { ACCEPT, downloadText, exportFilename, parseFile, type ParsedFile } from '../lib/parsers';
+import { ACCEPT, downloadBlob, downloadText, exportFilename, parseFile, type ParsedFile } from '../lib/parsers';
+import { redactFile } from '../lib/redact';
 import { StatusPill } from '../components/StatusPill';
 import { EntityRender } from '../components/EntityRender';
 
@@ -27,6 +28,7 @@ export function Workbench() {
   const [parsed, setParsed] = useState<ParsedFile | null>(null);
   const [mode, setMode] = useState<Mode>('view');
   const [dragOver, setDragOver] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const didAutoDetect = useRef(false);
 
@@ -83,12 +85,29 @@ export function Workbench() {
     [onFile],
   );
 
-  const handleExport = useCallback(() => {
+  const isRichFile = tab === 'file' && !!parsed && (parsed.kind === 'pdf' || parsed.kind === 'docx' || parsed.kind === 'xlsx');
+
+  const handleExport = useCallback(async () => {
+    // Rich documents in mask/redact mode are rewritten in their original format.
+    if (parsed && isRichFile && (mode === 'mask' || mode === 'redact')) {
+      try {
+        setExporting(true);
+        const { blob, filename } = await redactFile(parsed.file, parsed.kind as 'pdf' | 'docx' | 'xlsx', mode, filter.runBatch);
+        downloadBlob(filename, blob);
+      } catch (err) {
+        console.error(err);
+        alert((err as Error).message);
+      } finally {
+        setExporting(false);
+      }
+      return;
+    }
+    // Plain text path (txt/md/json/csv, or highlight view).
     const out = mode === 'mask' ? applyMask(inputText, filter.entities) : mode === 'redact' ? applyRedact(inputText, filter.entities) : inputText;
     const original = tab === 'file' && parsed ? parsed.filename : 'localmask-output.txt';
     const suffix = mode === 'view' ? 'annotated' : mode;
     downloadText(exportFilename(original, suffix), out);
-  }, [mode, inputText, filter.entities, tab, parsed]);
+  }, [mode, inputText, filter.entities, filter.runBatch, tab, parsed, isRichFile]);
 
   const counts = useMemo(() => {
     const m = new Map<EntityType, number>();
@@ -234,11 +253,11 @@ export function Workbench() {
               </div>
               <button
                 onClick={handleExport}
-                disabled={!filter.entities.length && mode === 'view'}
+                disabled={exporting || (isRichFile ? !isReady || mode === 'view' : !filter.entities.length && mode === 'view')}
                 className="inline-flex items-center gap-1.5 h-7 px-3 rounded border border-[color:var(--color-border-strong)] text-xs hover:bg-[color:var(--color-surface-2)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <DownloadSimple size={13} />
-                {w.export}
+                {exporting ? w.exporting : w.export}
               </button>
             </div>
 

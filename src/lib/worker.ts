@@ -66,8 +66,40 @@ async function infer(id: string, text: string) {
   }
 }
 
+async function inferBatch(id: string, texts: string[]) {
+  if (!classifier) {
+    await load();
+  }
+  if (!classifier) {
+    post({ type: 'error', id, error: 'Model failed to load.' });
+    return;
+  }
+  status = 'inferring';
+  post({ type: 'status', status, device });
+  try {
+    const t0 = performance.now();
+    // Run each segment individually so offsets stay relative to that segment.
+    const results: unknown[] = [];
+    for (const text of texts) {
+      if (!text || !text.trim()) {
+        results.push([]);
+        continue;
+      }
+      results.push(await classifier(text, { aggregation_strategy: 'simple' }));
+    }
+    const dt = performance.now() - t0;
+    post({ type: 'batchResult', id, results, ms: Math.round(dt) });
+  } catch (err) {
+    post({ type: 'error', id, error: (err as Error).message });
+  } finally {
+    status = 'ready';
+    post({ type: 'status', status, device });
+  }
+}
+
 self.onmessage = (e: MessageEvent) => {
-  const data = e.data as { type: string; id?: string; text?: string };
+  const data = e.data as { type: string; id?: string; text?: string; texts?: string[] };
   if (data.type === 'load') void load();
   else if (data.type === 'infer' && data.id && data.text != null) void infer(data.id, data.text);
+  else if (data.type === 'inferBatch' && data.id && data.texts) void inferBatch(data.id, data.texts);
 };
