@@ -28,6 +28,7 @@ export function Workbench() {
   const [mode, setMode] = useState<Mode>('view');
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const didAutoDetect = useRef(false);
 
   const inputText = tab === 'text' ? text : parsed?.text ?? '';
   const charCount = inputText.length;
@@ -44,6 +45,16 @@ export function Workbench() {
     filter.clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputText]);
+
+  // Run detection once on first load, after the model is ready, on the sample text.
+  useEffect(() => {
+    if (didAutoDetect.current) return;
+    if (filter.status !== 'ready') return;
+    if (!inputText.trim()) return;
+    didAutoDetect.current = true;
+    filter.run(inputText).catch(() => { /* surfaced via error */ });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter.status]);
 
   const handleDetect = useCallback(() => {
     if (!inputText.trim()) return;
