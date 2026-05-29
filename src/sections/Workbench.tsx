@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { DownloadSimple, FileText, Sparkle, UploadSimple, X } from '@phosphor-icons/react';
+import { DownloadSimple, FileText, MagnifyingGlass, Sparkle, UploadSimple, X } from '@phosphor-icons/react';
 import { useFilter } from '../lib/useFilter';
 import { ENTITY_TYPES, applyMask, applyRedact, type EntityType } from '../lib/entities';
 import { useLang } from '../lib/i18n';
@@ -28,7 +28,6 @@ export function Workbench() {
   const [mode, setMode] = useState<Mode>('view');
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const runId = useRef(0);
 
   const inputText = tab === 'text' ? text : parsed?.text ?? '';
   const charCount = inputText.length;
@@ -40,18 +39,17 @@ export function Workbench() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Debounced auto-run when ready and input changes.
+  // Drop stale results whenever the input changes — detection is manual.
   useEffect(() => {
+    filter.clear();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputText]);
+
+  const handleDetect = useCallback(() => {
     if (!inputText.trim()) return;
     if (filter.status !== 'ready' && filter.status !== 'inferring') return;
-    const id = ++runId.current;
-    const t = setTimeout(() => {
-      if (id !== runId.current) return;
-      filter.run(inputText).catch(() => { /* surfaced via error */ });
-    }, 350);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputText, filter.status]);
+    filter.run(inputText).catch(() => { /* surfaced via error */ });
+  }, [inputText, filter]);
 
   const onFile = useCallback(async (file: File) => {
     try {
@@ -120,8 +118,18 @@ export function Workbench() {
                   {w.fileTab}
                 </button>
               </div>
-              <div className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] num">
-                {wordCount} {w.words} · {charCount.toLocaleString()} {w.chars}
+              <div className="flex items-center gap-3">
+                <div className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] num hidden sm:block">
+                  {wordCount} {w.words} · {charCount.toLocaleString()} {w.chars}
+                </div>
+                <button
+                  onClick={handleDetect}
+                  disabled={!isReady || !inputText.trim() || filter.status === 'inferring'}
+                  className="inline-flex items-center gap-1.5 h-7 px-3 rounded bg-[color:var(--color-accent)] text-[#06281e] text-xs font-medium hover:bg-[color:var(--color-accent-hover)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  <MagnifyingGlass size={13} weight="bold" />
+                  {filter.status === 'inferring' ? w.detecting : w.detect}
+                </button>
               </div>
             </div>
 

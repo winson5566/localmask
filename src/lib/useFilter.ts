@@ -21,6 +21,7 @@ export interface FilterState {
   inferenceMs: number | null;
   load: () => void;
   run: (text: string) => Promise<Entity[]>;
+  clear: () => void;
 }
 
 let workerSingleton: Worker | null = null;
@@ -98,8 +99,13 @@ export function useFilter(): FilterState {
     });
   }, []);
 
+  const clear = useCallback(() => {
+    setEntities([]);
+    setInferenceMs(null);
+  }, []);
+
   return useMemo(
-    () => ({ status, device, progress, error, entities, inferenceMs, load, run }),
-    [status, device, progress, error, entities, inferenceMs, load, run],
+    () => ({ status, device, progress, error, entities, inferenceMs, load, run, clear }),
+    [status, device, progress, error, entities, inferenceMs, load, run, clear],
   );
 }

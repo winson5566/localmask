@@ -26,6 +26,7 @@ interface Strings {
     placeholder: string;
     dropTitle: string; dropProcessed: string;
     clearFile: string; note: string; moreChars: (n: string) => string;
+    detect: string; detecting: string;
     highlight: string; mask: string; redact: string; export: string;
     loadingTitle: string; loadingSize: string;
     errorLead: string; errorTip: string;
@@ -76,6 +77,7 @@ const en: Strings = {
     dropProcessed: 'Processed entirely in this tab',
     clearFile: 'Clear file', note: 'Note',
     moreChars: (n) => `… ${n} more chars`,
+    detect: 'Detect', detecting: 'Detecting…',
     highlight: 'Highlight', mask: 'Mask', redact: 'Redact', export: 'Export',
     loadingTitle: 'Model loading on first visit', loadingSize: '~700 MB · cached after',
     errorLead: 'Model failed to load.',
@@ -159,6 +161,7 @@ const zh: Strings = {
     dropProcessed: '完全在本标签页中处理',
     clearFile: '清除文件', note: '注意',
     moreChars: (n) => `…… 还有 ${n} 个字符`,
+    detect: '检测', detecting: '检测中…',
     highlight: '高亮', mask: '替换', redact: '涂黑', export: '导出',
     loadingTitle: '首次访问正在加载模型', loadingSize: '约 700 MB · 之后缓存',
     errorLead: '模型加载失败。',
