@@ -37,7 +37,7 @@ interface Strings {
   formats: {
     h2: string; lede: string;
     names: Record<string, string>;
-    sameOut: string; txtOut: string;
+    sameOut: string; pdfOut: string;
   };
   footer: { tagline: string };
   status: { idle: string; loadingModel: string; loading: (p: string) => string; ready: string; analyzing: string; error: string };
@@ -92,13 +92,13 @@ const en: Strings = {
     ],
   },
   formats: {
-    h2: 'Eight formats in, two formats out.',
-    lede: 'Plain formats round-trip. Rich documents are parsed for analysis and exported as plain text so layout can never leak through.',
+    h2: 'Same format in, same format out.',
+    lede: 'Plain text formats round-trip directly. Excel and Word keep their structure and layout; PDF stays a PDF, rasterized to images so redacted content is truly removed.',
     names: {
       TXT: 'Plain text', MD: 'Markdown', JSON: 'JSON', CSV: 'Comma-separated', TSV: 'Tab-separated',
       PDF: 'PDF document', DOCX: 'Word document', XLSX: 'Excel workbook',
     },
-    sameOut: 'same format out', txtOut: 'exports as .txt',
+    sameOut: 'same format out', pdfOut: 'image PDF out',
   },
   footer: { tagline: 'Browser-native PII filter' },
   status: { idle: 'Idle', loadingModel: 'Loading model', loading: (p) => `Loading model · ${p}%`, ready: 'Ready', analyzing: 'Analyzing', error: 'Error' },
@@ -165,13 +165,13 @@ const zh: Strings = {
     ],
   },
   formats: {
-    h2: '八种格式进，两种格式出。',
-    lede: '纯文本格式可原样往返。富文档会被解析以供分析，并以纯文本导出，使排版永远不会泄露。',
+    h2: '什么格式进，什么格式出。',
+    lede: '纯文本格式直接原样往返；Excel 和 Word 保留结构与排版；PDF 仍是 PDF，会栅格化为图片以彻底移除涂黑内容。',
     names: {
       TXT: '纯文本', MD: 'Markdown', JSON: 'JSON', CSV: '逗号分隔', TSV: '制表符分隔',
       PDF: 'PDF 文档', DOCX: 'Word 文档', XLSX: 'Excel 工作簿',
     },
-    sameOut: '原格式导出', txtOut: '导出为 .txt',
+    sameOut: '原格式导出', pdfOut: '图片型 PDF',
   },
   footer: { tagline: '浏览器原生 PII 过滤器' },
   status: { idle: '空闲', loadingModel: '正在加载模型', loading: (p) => `正在加载模型 · ${p}%`, ready: '就绪', analyzing: '分析中', error: '错误' },

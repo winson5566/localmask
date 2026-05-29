@@ -1,14 +1,14 @@
 import { useLang } from '../lib/i18n';
 
 const formats = [
-  { ext: 'TXT', engine: 'Native', roundtrip: true },
-  { ext: 'MD', engine: 'Native', roundtrip: true },
-  { ext: 'JSON', engine: 'Native', roundtrip: true },
-  { ext: 'CSV', engine: 'Native', roundtrip: true },
-  { ext: 'TSV', engine: 'Native', roundtrip: true },
-  { ext: 'PDF', engine: 'pdf.js', roundtrip: false },
-  { ext: 'DOCX', engine: 'Mammoth', roundtrip: false },
-  { ext: 'XLSX', engine: 'SheetJS', roundtrip: false },
+  { ext: 'TXT', engine: 'Native', out: 'same' },
+  { ext: 'MD', engine: 'Native', out: 'same' },
+  { ext: 'JSON', engine: 'Native', out: 'same' },
+  { ext: 'CSV', engine: 'Native', out: 'same' },
+  { ext: 'TSV', engine: 'Native', out: 'same' },
+  { ext: 'PDF', engine: 'pdf.js + raster', out: 'pdf' },
+  { ext: 'DOCX', engine: 'OOXML', out: 'same' },
+  { ext: 'XLSX', engine: 'SheetJS', out: 'same' },
 ];
 
 export function Formats() {
@@ -38,7 +38,7 @@ export function Formats() {
                 <div className="min-w-0">
                   <div className="text-sm">{t.formats.names[f.ext]}</div>
                   <div className="font-mono text-[10.5px] text-[color:var(--color-text-dim)] uppercase tracking-[0.18em] mt-1">
-                    {f.engine} · {f.roundtrip ? t.formats.sameOut : t.formats.txtOut}
+                    {f.engine} · {f.out === 'pdf' ? t.formats.pdfOut : t.formats.sameOut}
                   </div>
                 </div>
               </div>
