@@ -7,9 +7,6 @@ export function Limitations() {
     <section id="limitations" className="px-6 lg:px-8 py-24 lg:py-32 border-t border-[color:var(--color-border)] bg-[color:var(--color-surface)]/30">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4">
-          <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-text-dim)] mb-4">
-            {t.limitations.eyebrow}
-          </div>
           <h2 className="text-3xl md:text-4xl tracking-tight font-medium leading-[1.1]">
             {t.limitations.h2}
           </h2>

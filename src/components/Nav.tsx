@@ -16,14 +16,13 @@ export function Nav() {
         <div className="flex items-center gap-6 text-sm text-[color:var(--color-text-muted)]">
           <a href="#workbench" className="hover:text-[color:var(--color-text)] transition-colors">{t.nav.workbench}</a>
           <a href="#how" className="hover:text-[color:var(--color-text)] transition-colors hidden sm:inline">{t.nav.how}</a>
-          <a href="#model" className="hover:text-[color:var(--color-text)] transition-colors hidden md:inline">{t.nav.model}</a>
           <a href="#limitations" className="hover:text-[color:var(--color-text)] transition-colors hidden md:inline">{t.nav.limitations}</a>
           <a
-            href="https://github.com/openai/privacy-filter"
+            href="https://github.com/winson5566/localmask"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-1.5 hover:text-[color:var(--color-text)] transition-colors"
-            aria-label="OpenAI Privacy Filter on GitHub"
+            aria-label="LocalMask on GitHub"
           >
             <GithubLogo size={16} weight="regular" />
             <span className="hidden sm:inline">{t.nav.repo}</span>

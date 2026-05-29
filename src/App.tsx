@@ -2,7 +2,6 @@ import { Nav } from './components/Nav';
 import { Hero } from './sections/Hero';
 import { Workbench } from './sections/Workbench';
 import { HowItWorks } from './sections/HowItWorks';
-import { Model } from './sections/Model';
 import { Formats } from './sections/Formats';
 import { Limitations } from './sections/Limitations';
 import { Footer } from './sections/Footer';
@@ -19,7 +18,6 @@ export default function App() {
           <Hero />
           <Workbench />
           <HowItWorks />
-          <Model />
           <Formats />
           <Limitations />
         </main>

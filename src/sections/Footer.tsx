@@ -11,18 +11,9 @@ export function Footer() {
           <span>·</span>
           <span>{t.footer.tagline}</span>
         </div>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <a href="https://huggingface.co/openai/privacy-filter" target="_blank" rel="noreferrer" className="hover:text-[color:var(--color-text)] transition-colors">
-            {t.footer.modelHF}
-          </a>
-          <a href="https://github.com/openai/privacy-filter" target="_blank" rel="noreferrer" className="hover:text-[color:var(--color-text)] transition-colors">
-            {t.footer.repo}
-          </a>
-          <a href="https://cdn.openai.com/pdf/c66281ed-b638-456a-8ce1-97e9f5264a90/OpenAI-Privacy-Filter-Model-Card.pdf" target="_blank" rel="noreferrer" className="hover:text-[color:var(--color-text)] transition-colors">
-            {t.footer.modelCard}
-          </a>
-          <span className="text-[color:var(--color-text-dim)]/60">Apache 2.0</span>
-        </div>
+        <a href="https://github.com/winson5566/localmask" target="_blank" rel="noreferrer" className="hover:text-[color:var(--color-text)] transition-colors">
+          GitHub
+        </a>
       </div>
     </footer>
   );

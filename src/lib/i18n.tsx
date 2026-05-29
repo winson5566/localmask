@@ -6,17 +6,13 @@ export type Lang = 'en' | 'zh';
 type EntityMap = Record<EntityType, string>;
 
 interface Strings {
-  nav: { workbench: string; how: string; model: string; limitations: string; repo: string };
+  nav: { workbench: string; how: string; limitations: string; repo: string };
   hero: {
-    eyebrow: string;
     h1a: string;
     h1b: string;
     lede: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    params: string; paramsNote: string;
-    context: string; contextNote: string;
-    classes: string; classesNote: string;
     previewTitle: string;
     live: string;
     from: string; date: string; phone: string; address: string;
@@ -37,48 +33,29 @@ interface Strings {
     footerNote: string;
   };
   how: { h2: string; lede: string; steps: { title: string; body: string }[] };
-  model: {
-    eyebrow: string; h2: string; lede: string;
-    archTitle: string;
-    fType: string; vType: string;
-    fBackbone: string; vBackbone: string;
-    fAttention: string; vAttention: string;
-    fFfn: string; vFfn: string;
-    fWidth: string; vWidth: string;
-    fHead: string; vHead: string;
-    glance: string;
-    total: string; activePerToken: string;
-    contextWindow: string;
-    spanCategories: string;
-    detectedEntities: string; classes: string;
-  };
   formats: {
     h2: string; lede: string;
     names: Record<string, string>;
     sameOut: string; txtOut: string;
   };
   limitations: {
-    eyebrow: string; h2: string; lede: string;
+    h2: string; lede: string;
     items: { title: string; body: string }[];
   };
-  footer: { tagline: string; modelHF: string; repo: string; modelCard: string };
+  footer: { tagline: string };
   status: { idle: string; loadingModel: string; loading: (p: string) => string; ready: string; analyzing: string; error: string };
   entityLabel: EntityMap;
   entityDesc: EntityMap;
 }
 
 const en: Strings = {
-  nav: { workbench: 'Workbench', how: 'How it works', model: 'Model', limitations: 'Limitations', repo: 'Model repo' },
+  nav: { workbench: 'Workbench', how: 'How it works', limitations: 'Limitations', repo: 'GitHub' },
   hero: {
-    eyebrow: 'Open weights · Apache 2.0',
     h1a: 'Privacy never leaves',
     h1b: 'your device.',
-    lede: "LocalMask is a browser-native PII filter powered by OpenAI's open-weight Privacy Filter. Text, PDF, Word, and Excel are analyzed entirely on your machine. Nothing is uploaded.",
+    lede: 'LocalMask is a browser-native PII filter. Text, PDF, Word, and Excel are analyzed entirely on your machine. Nothing is uploaded.',
     ctaPrimary: 'Open the workbench',
     ctaSecondary: 'How it works',
-    params: 'Params', paramsNote: '/ 50M active',
-    context: 'Context', contextNote: 'tokens',
-    classes: 'Classes', classesNote: 'entities',
     previewTitle: 'Preview · sample input',
     live: 'Live',
     from: 'From:', date: 'Date:', phone: 'Phone:', address: 'Address:',
@@ -116,23 +93,6 @@ const en: Strings = {
       { title: 'You decide what to do with it.', body: 'Highlight to inspect, mask to replace each span with a typed placeholder for downstream pipelines, or redact to erase the span entirely. Export as a clean file when you are ready.' },
     ],
   },
-  model: {
-    eyebrow: 'The model',
-    h2: 'A bidirectional classifier, not a chatbot.',
-    lede: 'OpenAI Privacy Filter is a token-classification model adapted from a gpt-oss-style autoregressive checkpoint. Instead of generating text, it labels every token in a single forward pass and decodes coherent spans with a constrained Viterbi procedure.',
-    archTitle: 'Architecture',
-    fType: 'Type', vType: 'Bidirectional token classifier',
-    fBackbone: 'Backbone', vBackbone: 'Pre-norm transformer, 8 blocks',
-    fAttention: 'Attention', vAttention: 'GQA · 14 Q heads / 2 KV heads · RoPE · banded (window 257)',
-    fFfn: 'FFN', vFfn: 'Sparse MoE · 128 experts · top-4 routing',
-    fWidth: 'Width', vWidth: 'd_model = 640',
-    fHead: 'Output head', vHead: '33 classes (1 O + 8 × BIOES)',
-    glance: 'At a glance',
-    total: 'total', activePerToken: '50M active per token',
-    contextWindow: 'context window, no chunking',
-    spanCategories: 'privacy span categories',
-    detectedEntities: 'Detected entities', classes: '8 classes',
-  },
   formats: {
     h2: 'Eight formats in, two formats out.',
     lede: 'Plain formats round-trip. Rich documents are parsed for analysis and exported as plain text so layout can never leak through.',
@@ -143,18 +103,17 @@ const en: Strings = {
     sameOut: 'same format out', txtOut: 'exports as .txt',
   },
   limitations: {
-    eyebrow: 'Model card excerpt',
     h2: 'What this is not.',
-    lede: "Reading the model card carefully is part of using the model responsibly. The bullets below come directly from OpenAI's published limitations.",
+    lede: 'Using a PII filter responsibly means understanding what it can and cannot do. The points below describe its limits.',
     items: [
-      { title: 'A redaction aid, not an anonymization guarantee.', body: 'Privacy Filter is a data-minimization aid. Treating its output as proof of anonymization risks missing the actual privacy objective. Use it as one layer in a holistic privacy-by-design approach.' },
-      { title: 'A static label policy.', body: 'The model identifies eight categories of personal data. Real privacy use cases are more varied. Changing label boundaries requires fine-tuning the model, not configuration at runtime.' },
+      { title: 'A redaction aid, not an anonymization guarantee.', body: 'LocalMask is a data-minimization aid. Treating its output as proof of anonymization risks missing the actual privacy objective. Use it as one layer in a holistic privacy-by-design approach.' },
+      { title: 'A static label policy.', body: 'It identifies eight categories of personal data. Real privacy use cases are more varied. Changing label boundaries requires retraining, not configuration at runtime.' },
       { title: 'Best in English, on Latin scripts.', body: 'Performance may drop on non-English text, non-Latin scripts, protected-group naming patterns, or domains that are out of distribution.' },
       { title: 'Known failure modes.', body: 'Possible under-detection of uncommon names, regional naming conventions, initials, and domain-specific identifiers. Possible over-redaction of public entities, organizations, or benign high-entropy strings that resemble secrets. Fragmented spans in heavy-layout text.' },
       { title: 'High-sensitivity workflows need human review.', body: 'Medical, legal, financial, HR, education, and government workflows carry real cost on both false negatives and false positives. Keep humans in the loop.' },
     ],
   },
-  footer: { tagline: 'Browser-native PII filter', modelHF: 'Model on Hugging Face', repo: 'openai/privacy-filter', modelCard: 'Model card (PDF)' },
+  footer: { tagline: 'Browser-native PII filter' },
   status: { idle: 'Idle', loadingModel: 'Loading model', loading: (p) => `Loading model · ${p}%`, ready: 'Ready', analyzing: 'Analyzing', error: 'Error' },
   entityLabel: {
     private_person: 'Person', private_email: 'Email', private_phone: 'Phone', private_address: 'Address',
@@ -173,17 +132,13 @@ const en: Strings = {
 };
 
 const zh: Strings = {
-  nav: { workbench: '工作台', how: '工作原理', model: '模型', limitations: '局限性', repo: '模型仓库' },
+  nav: { workbench: '工作台', how: '工作原理', limitations: '局限性', repo: 'GitHub' },
   hero: {
-    eyebrow: '开放权重 · Apache 2.0',
     h1a: '隐私数据',
     h1b: '永不离开你的设备。',
-    lede: 'LocalMask 是一款浏览器原生的 PII 过滤器，由 OpenAI 开放权重的 Privacy Filter 模型驱动。文本、PDF、Word 和 Excel 全部在你本机分析，任何内容都不会上传。',
+    lede: 'LocalMask 是一款浏览器原生的 PII 过滤器。文本、PDF、Word 和 Excel 全部在你本机分析，任何内容都不会上传。',
     ctaPrimary: '打开工作台',
     ctaSecondary: '工作原理',
-    params: '参数', paramsNote: '/ 5000万激活',
-    context: '上下文', contextNote: 'tokens',
-    classes: '类别', classesNote: '种实体',
     previewTitle: '预览 · 示例输入',
     live: '实时',
     from: '发件人：', date: '日期：', phone: '电话：', address: '地址：',
@@ -221,23 +176,6 @@ const zh: Strings = {
       { title: '由你决定如何处理。', body: '高亮以检查，替换以将每个片段换成带类型的占位符供下游流程使用，或涂黑以彻底抹去片段。准备好后导出为干净的文件。' },
     ],
   },
-  model: {
-    eyebrow: '关于模型',
-    h2: '一个双向分类器，而非聊天机器人。',
-    lede: 'OpenAI Privacy Filter 是一个 token 分类模型，由 gpt-oss 风格的自回归检查点改造而来。它不生成文本，而是在单次前向传播中为每个 token 打标签，并用受约束的 Viterbi 算法解码出连贯的片段。',
-    archTitle: '架构',
-    fType: '类型', vType: '双向 token 分类器',
-    fBackbone: '主干', vBackbone: 'Pre-norm transformer，8 层',
-    fAttention: '注意力', vAttention: 'GQA · 14 Q 头 / 2 KV 头 · RoPE · 带状（窗口 257）',
-    fFfn: '前馈网络', vFfn: '稀疏 MoE · 128 专家 · top-4 路由',
-    fWidth: '宽度', vWidth: 'd_model = 640',
-    fHead: '输出头', vHead: '33 类（1 个 O + 8 × BIOES）',
-    glance: '一览',
-    total: '总计', activePerToken: '每 token 激活 5000 万',
-    contextWindow: '上下文窗口，无需分块',
-    spanCategories: '种隐私片段类别',
-    detectedEntities: '可检测实体', classes: '8 个类别',
-  },
   formats: {
     h2: '八种格式进，两种格式出。',
     lede: '纯文本格式可原样往返。富文档会被解析以供分析，并以纯文本导出，使排版永远不会泄露。',
@@ -248,18 +186,17 @@ const zh: Strings = {
     sameOut: '原格式导出', txtOut: '导出为 .txt',
   },
   limitations: {
-    eyebrow: '模型卡摘录',
     h2: '它不是什么。',
-    lede: '认真阅读模型卡是负责任地使用该模型的一部分。以下条目直接来自 OpenAI 公布的局限性说明。',
+    lede: '负责任地使用 PII 过滤器，意味着理解它能做什么、不能做什么。以下条目说明了它的局限。',
     items: [
-      { title: '一种脱敏辅助手段，而非匿名化保证。', body: 'Privacy Filter 是一种数据最小化辅助工具。将其输出视为匿名化的证明，可能会偏离真正的隐私目标。请将它作为整体「隐私设计」方案中的一层。' },
-      { title: '固定的标签策略。', body: '该模型识别八类个人数据。真实的隐私场景更为多样。改变标签边界需要对模型进行微调，而非运行时配置。' },
+      { title: '一种脱敏辅助手段，而非匿名化保证。', body: 'LocalMask 是一种数据最小化辅助工具。将其输出视为匿名化的证明，可能会偏离真正的隐私目标。请将它作为整体「隐私设计」方案中的一层。' },
+      { title: '固定的标签策略。', body: '它识别八类个人数据。真实的隐私场景更为多样。改变标签边界需要重新训练，而非运行时配置。' },
       { title: '在英语、拉丁字母上表现最佳。', body: '在非英语文本、非拉丁字母、受保护群体的命名模式，或分布外的领域上，性能可能下降。' },
       { title: '已知的失效模式。', body: '可能漏检不常见的姓名、地区性命名习惯、缩写以及领域特定的标识符。可能过度涂黑公众实体、组织，或与密钥相似的良性高熵字符串。在重排版文本中片段可能被切碎。' },
       { title: '高敏感场景需要人工复核。', body: '医疗、法律、金融、人力资源、教育和政府场景中，漏报和误报都会带来实际代价。请保留人工把关。' },
     ],
   },
-  footer: { tagline: '浏览器原生 PII 过滤器', modelHF: '在 Hugging Face 上查看模型', repo: 'openai/privacy-filter', modelCard: '模型卡（PDF）' },
+  footer: { tagline: '浏览器原生 PII 过滤器' },
   status: { idle: '空闲', loadingModel: '正在加载模型', loading: (p) => `正在加载模型 · ${p}%`, ready: '就绪', analyzing: '分析中', error: '错误' },
   entityLabel: {
     private_person: '人名', private_email: '邮箱', private_phone: '电话', private_address: '地址',

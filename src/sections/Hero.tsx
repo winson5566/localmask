@@ -8,10 +8,6 @@ export function Hero() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left: copy */}
         <div className="lg:col-span-7">
-          <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--color-text-dim)] mb-6 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)]" />
-            {t.hero.eyebrow}
-          </div>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-[-0.03em] leading-[1.02] text-grad-accent">
             {t.hero.h1a}
             <br />
@@ -35,21 +31,6 @@ export function Hero() {
               {t.hero.ctaSecondary}
             </a>
           </div>
-
-          <dl className="mt-12 grid grid-cols-3 gap-6 max-w-md">
-            <div>
-              <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)]">{t.hero.params}</dt>
-              <dd className="mt-1.5 num text-base text-[color:var(--color-text)]">1.5B<span className="text-[color:var(--color-text-muted)] text-xs ml-1">{t.hero.paramsNote}</span></dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)]">{t.hero.context}</dt>
-              <dd className="mt-1.5 num text-base text-[color:var(--color-text)]">128k<span className="text-[color:var(--color-text-muted)] text-xs ml-1">{t.hero.contextNote}</span></dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--color-text-dim)]">{t.hero.classes}</dt>
-              <dd className="mt-1.5 num text-base text-[color:var(--color-text)]">8<span className="text-[color:var(--color-text-muted)] text-xs ml-1">{t.hero.classesNote}</span></dd>
-            </div>
-          </dl>
         </div>
 
         {/* Right: live preview */}
